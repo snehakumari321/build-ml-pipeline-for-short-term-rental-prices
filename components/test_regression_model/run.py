@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-This step takes the best model, tagged with the "prod" tag, and tests it against the test dataset
+This step takes the best model, tagged with the "prod" tag,
+and tests it against the test dataset
 """
 import argparse
 import logging
@@ -17,13 +18,12 @@ logger = logging.getLogger()
 
 
 def go(args):
-
     run = wandb.init(job_type="test_model")
     run.config.update(args)
 
     logger.info("Downloading artifacts")
-    # Download input artifact. This will also log that this script is using this
-    # particular version of the artifact
+    # Download input artifact. This will also log that this script
+    # is using this particular version of the artifact
     model_local_path = run.use_artifact(args.mlflow_model).download()
 
     # Download test dataset
@@ -46,27 +46,20 @@ def go(args):
     logger.info(f"MAE: {mae}")
 
     # Log MAE and r2
-    run.summary['r2'] = r_squared
-    run.summary['mae'] = mae
+    run.summary["r2"] = r_squared
+    run.summary["mae"] = mae
 
 
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser(description="Test the provided model against the test dataset")
-
-    parser.add_argument(
-        "--mlflow_model",
-        type=str, 
-        help="Input MLFlow model",
-        required=True
+    parser = argparse.ArgumentParser(
+        description="Test the provided model against the test dataset"
     )
 
     parser.add_argument(
-        "--test_dataset",
-        type=str, 
-        help="Test dataset",
-        required=True
+        "--mlflow_model", type=str, help="Input MLFlow model", required=True
     )
+
+    parser.add_argument("--test_dataset", type=str, help="Test dataset", required=True)
 
     args = parser.parse_args()
 
