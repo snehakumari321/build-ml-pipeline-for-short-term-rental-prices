@@ -108,8 +108,8 @@ def go(config: DictConfig):
                 ),
                 "main",
                 parameters={
-                    "trainval_artifact": "clean_sample.csv:latest",
-                    "val_size": config["modeling"]["test_size"],
+                    "trainval_artifact": "trainval_data.csv:latest",
+                    "val_size": config["modeling"]["val_size"],
                     "random_seed": config["modeling"]["random_seed"],
                     "stratify": config["modeling"]["stratify_by"],
                     "rf_config": rf_config,
