@@ -50,13 +50,15 @@ def go(config: DictConfig):
 
         if "basic_cleaning" in active_steps:
             _ = mlflow.run(
-                os.path.join(hydra.utils.get_original_cwd(), "src", "basic_cleaning"),
+                os.path.join(hydra.utils.get_original_cwd(),
+                             "src", "basic_cleaning"),
                 "main",
                 parameters={
                     "input_artifact": "sample.csv:latest",
                     "output_artifact": "clean_sample.csv",
                     "output_type": "clean_sample",
-                    "output_description": "Data with outliers and null values removed",
+                    "output_description":
+                        "Data with outliers and null values removed",
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"],
                 },
@@ -65,7 +67,8 @@ def go(config: DictConfig):
         if "data_check" in active_steps:
             if "data_check" in active_steps:
                 _ = mlflow.run(
-                    os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
+                    os.path.join(hydra.utils.get_original_cwd(),
+                                 "src", "data_check"),
                     "main",
                     parameters={
                         "csv": "clean_sample.csv:latest",
@@ -78,7 +81,8 @@ def go(config: DictConfig):
 
         if "data_split" in active_steps:
             _ = mlflow.run(
-                f"{config['main']['components_repository']}/" f"train_val_test_split",
+                f"{config['main']['components_repository']}/"
+                f"train_val_test_split",
                 "main",
                 version="main",
                 parameters={
@@ -104,7 +108,8 @@ def go(config: DictConfig):
 
             _ = mlflow.run(
                 os.path.join(
-                    hydra.utils.get_original_cwd(), "src", "train_random_forest"
+                    hydra.utils.get_original_cwd(), "src",
+                    "train_random_forest"
                 ),
                 "main",
                 parameters={
@@ -113,14 +118,16 @@ def go(config: DictConfig):
                     "random_seed": config["modeling"]["random_seed"],
                     "stratify": config["modeling"]["stratify_by"],
                     "rf_config": rf_config,
-                    "max_tfidf_features": config["modeling"]["max_tfidf_features"],
+                    "max_tfidf_features":
+                        config["modeling"]["max_tfidf_features"],
                     "output_artifact": "random_forest_export",
                 },
             )
 
         if "test_regression_model" in active_steps:
             _ = mlflow.run(
-                f"{config['main']['components_repository']}/" f"test_regression_model",
+                f"{config['main']['components_repository']}/"
+                f"test_regression_model",
                 "main",
                 version="main",
                 parameters={

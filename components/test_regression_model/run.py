@@ -56,10 +56,12 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--mlflow_model", type=str, help="Input MLFlow model", required=True
+        "--mlflow_model", type=str,
+        help="Input MLFlow model", required=True
     )
 
-    parser.add_argument("--test_dataset", type=str, help="Test dataset", required=True)
+    parser.add_argument("--test_dataset", type=str,
+                        help="Test dataset", required=True)
 
     args = parser.parse_args()
 
